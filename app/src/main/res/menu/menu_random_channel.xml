@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/clean_btn"
+        android:title="WHITE"
+        android:icon="@drawable/chat_logo"/>
+
+    <item
+        android:id="@+id/no_rules_btn"
+        android:title="BLACK"
+        android:icon="@drawable/chat_logo"/>
+
+</menu>

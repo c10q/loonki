@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "827749652909",
+    "firebase_url": "https://loonki.firebaseio.com",
+    "project_id": "loonki",
+    "storage_bucket": "loonki.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827749652909:android:7346beb4a5aea9825ba924",
+        "android_client_info": {
+          "package_name": "com.cloq.loonki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827749652909-k6mvu9ovvafllb6hkotr9g355ng2mo5n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloq.loonki",
+            "certificate_hash": "a4922c3679479bae29d7b73a4ba90cdddd5b1bae"
+          }
+        },
+        {
+          "client_id": "827749652909-eltlt1i163e7gdq0n7q7qd5n1aou1cpg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrNavA7RMQLOJn4k5G-L_34YFYQ-mbAHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827749652909-eltlt1i163e7gdq0n7q7qd5n1aou1cpg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_region">
+        <item>서울</item>
+        <item>경기</item>
+        <item>전주</item>
+    </string-array>
+</resources>

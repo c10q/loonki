@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:background="@drawable/channel_card_bg"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+  <androidx.cardview.widget.CardView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      app:cardCornerRadius="50dp">
+
+    <ImageView
+        android:id="@+id/channel_card_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="content_view"
+        android:cropToPadding="false"
+        tools:src="@tools:sample/avatars" />
+
+  </androidx.cardview.widget.CardView>
+
+  <TextView
+      android:id="@+id/channel_item_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:gravity="center_horizontal"
+      android:paddingStart="10dp"
+      android:paddingTop="20dp"
+      android:paddingEnd="10dp"
+      android:paddingBottom="10dp"
+      tools:ignore="RtlSymmetry"
+      tools:text="@tools:sample/lorem[4]" />
+
+</LinearLayout>
