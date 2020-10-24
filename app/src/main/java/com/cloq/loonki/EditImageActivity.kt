@@ -6,11 +6,11 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
+import com.cloq.loonki.dialog.LoadingDialog
+import com.cloq.loonki.fragment.storage
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.activity_edit_image.*
 import java.io.File
@@ -26,8 +26,11 @@ class EditImageActivity : AppCompatActivity() {
 
         openGallery()
 
-        save_edit_profile_image.setOnClickListener{
-            if(currentUri != null) saveProfileImage()
+        save_edit_profile_image.setOnClickListener {
+            if (currentUri != null) {
+                LoadingDialog(this).start()
+                saveProfileImage()
+            }
         }
 
     }
@@ -58,8 +61,8 @@ class EditImageActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode){
-            OPEN_GALLERY -> if(resultCode == Activity.RESULT_OK && data != null){
+        when (requestCode) {
+            OPEN_GALLERY -> if (resultCode == Activity.RESULT_OK && data != null) {
                 val sourceUri: Uri? = data.data
                 val file: File = getImageFile()
                 val destinationUri = Uri.fromFile(file)
@@ -67,47 +70,53 @@ class EditImageActivity : AppCompatActivity() {
             } else {
                 super.onBackPressed()
             }
-            UCrop.REQUEST_CROP -> if(resultCode == Activity.RESULT_OK){
+            UCrop.REQUEST_CROP -> if (resultCode == Activity.RESULT_OK) {
 
-                    val result: Uri? = UCrop.getOutput(data!!)
+                val result: Uri? = UCrop.getOutput(data!!)
 
-                    edit_image_profile.setImageURI(result)
-                    currentUri = result
+                edit_image_profile.setImageURI(result)
+                currentUri = result
 
-                } else if(resultCode == UCrop.RESULT_ERROR){
-                    Toast.makeText(this, "에러!", Toast.LENGTH_SHORT).show()
-                } else {
+            } else if (resultCode == UCrop.RESULT_ERROR) {
+                Toast.makeText(this, "에러!", Toast.LENGTH_SHORT).show()
+            } else {
                 super.onBackPressed()
             }
 
         }
-
     }
 
-    private fun launchImageCrop(sourceUri: Uri, destinationUri: Uri){
+    private fun launchImageCrop(sourceUri: Uri, destinationUri: Uri) {
         UCrop.of(sourceUri, destinationUri)
-                .withAspectRatio(1F, 1F)
-                .withMaxResultSize(1024, 1024)
-                .start(this)
+            .withAspectRatio(1F, 1F)
+            .withMaxResultSize(1024, 1024)
+            .start(this)
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun saveProfileImage(){
-        val uid = FirebaseAuth.getInstance().uid
-        val storage = FirebaseStorage.getInstance()
+    fun saveProfileImage() {
+        val uid = App.prefs.getPref("UID", "no user")
         val fileName = "user_profile_${System.currentTimeMillis()}.png"
-        val storageRef = storage.reference.child("users").child(uid.toString()).child("profile_main").child(fileName)
-
-        auth?.uid?.let { FirebaseDatabase.getInstance().getReference("users").child(it).child("profile_img").setValue(fileName) }
+        val storageRef = storage.reference.child("users/$uid/profile_main/$fileName")
 
         storageRef.putFile(currentUri!!).addOnSuccessListener {
-            Toast.makeText(this, "업로드 완료!", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
+            storageRef.downloadUrl.addOnSuccessListener {
+                App.prefs.setPref("PROFILE_URL", it.toString())
+                fs.collection("users").document(uid).update(
+                    hashMapOf(
+                        "profile_url" to it.toString()
+                    ) as Map<String, String>
+                ).addOnCompleteListener {
+                    LoadingDialog(this).dismiss()
+                    Toast.makeText(this, "프로필 변경 완료!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-            startActivity(intent)
+                    startActivity(intent)
+                }
+            }
         }
     }
 }

@@ -3,136 +3,157 @@ package com.cloq.loonki
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
+import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import com.cloq.loonki.Adapter.BottomNavAdapter
-import com.google.android.gms.tasks.OnCompleteListener
+import androidx.core.view.get
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.viewpager.widget.ViewPager
+import com.cloq.loonki.adapter.BottomNavAdapter
+import com.cloq.loonki.fragment.*
+import com.google.android.gms.tasks.Task
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.*
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_home.*
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.android.synthetic.main.activity_square.*
+import kotlinx.android.synthetic.main.bottom_navigation_tab.*
+
+val fs = FirebaseFirestore.getInstance()
+val db = FirebaseDatabase.getInstance()
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
+    @SuppressLint("ResourceType", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        auth?.currentUser?.reload()
 
-        checkConnection()
+        val arr = arrayListOf<Int>()
+        val result = arrayListOf<Int>()
+        "152".forEach { it ->
+            arr.add(it.toString().toInt())
+        }
 
-        configureBottomNavigation()
+
+        for (i in 0 until arr.size) {
+            var num = "${arr[i]}"
+            for (j in 0 until arr.size) {
+                if (i != j) num += arr[j].toString()
+            }
+            println(num)
+        }
+
+
+
+        toolbar = findViewById(R.id.toolbar_main)
+        toolbar.overflowIcon?.setTint(getColor(R.color.color2))
+        toolbar.title = "HOME"
+        replaceFragment(MyPageFragment(), "MY")
+        toolbar.menu[0].icon.setTint(getColor(R.color.color2))
+        toolbar.menu[0].setOnMenuItemClickListener {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+        bottom_nav.onItemSelected = {
+            toolbar.menu.clear()
+            when (it) {
+                0 -> {
+                    replaceFragment(MyPageFragment(), "MY")
+                    toolbar.menu.add("").setIcon(getDrawable(R.drawable.ic_more_vert_24px))
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    toolbar.menu[0].icon.setTint(getColor(R.color.color2))
+                    toolbar.menu[0].setOnMenuItemClickListener {
+                        val intent = Intent(this, EditProfileActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                }
+                1 -> {
+                    replaceFragment(ChannelFragment(), "CHANNELS")
+                }
+                2 -> {
+                    replaceFragment(HomeFragment(), "HOME")
+                    toolbar.menu.add("home").setIcon(getDrawable(R.drawable.ic_add_24px))
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    toolbar.menu[0].icon.setTint(getColor(R.color.color2))
+                    toolbar.menu[0].setOnMenuItemClickListener {
+                        val intent = Intent(this, AddPostActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                }
+                3 -> {
+                    replaceFragment(ChatFragment(), "MESSAGES")
+                }
+                4 -> {
+                    replaceFragment(SettingsFragment(), "SETTING")
+                }
+            }
+        }
+
+        db.goOnline()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_home, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun replaceFragment(fragment: Fragment, title: String) {
+        toolbar.title = title
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.bottom_nav_bg, fragment)
+        fragmentTransaction.commit()
     }
 
     override fun onStart() {
         super.onStart()
-        if (auth?.currentUser == null) {
-            val intent = Intent(this, AuthActivity::class.java)
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-            startActivity(intent)
-        } else {
-            db.getReference("user_token").child(auth?.uid.toString())
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {}
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        Log.d("토큰 확인용", snapshot.toString())
-                        if (snapshot.value.toString() != FirebaseInstanceId.getInstance().token.toString()) {
-
-                            auth?.signOut()
-                            auth?.currentUser?.reload()
-
-                            val intent = Intent(this@MainActivity, AuthActivity::class.java)
-
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-                            startActivity(intent)
-                        }
-                    }
-
-                })
+        val user = App.prefs.getPref("UID", "")
+        val token = App.prefs.getPref("FCM_Token", "")
+        if (user == "" && token == "") {
+            intentAuth()
         }
     }
 
-    private fun checkConnection() {
-        val uid = auth?.currentUser?.uid
+    private fun intentAuth() {
+        val intent = Intent(this, AuthActivity::class.java)
 
-        val connectedRef = db.getReference(".info/connected")
-        connectedRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val connected = snapshot.getValue(Boolean::class.java) ?: false
-                if (connected) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                    val onlineRef = db.getReference("online_user").child(uid.toString())
-                    onlineRef.setValue(uid)
-                    onlineRef.onDisconnect().removeValue()
-
-                    val userConnectRef = db.getReference("users_connection").child(uid.toString())
-
-                    val stateRef = userConnectRef.child("state")
-                    stateRef.setValue("online")
-                    stateRef.onDisconnect().setValue("disconnected")
-
-                    val lastLoginRef = userConnectRef.child("last_login")
-                    lastLoginRef.setValue(System.currentTimeMillis().toString())
-
-                    val lastConnectRef = userConnectRef.child("last_connection")
-                    lastConnectRef.onDisconnect().setValue(System.currentTimeMillis().toString())
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(OnCompleteListener { task ->
-            val token = task.result?.token
-
-
-        })
+        startActivity(intent)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        val userID = App.prefs.getPref("UID", "No User")
-        println(userID)
+        db.goOffline()
     }
 
-    fun getDateTime(stamp: Timestamp): String? {
-        return try {
-            val date = Date(stamp.time)
-            val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA)
-            sdf.format(date)
-        } catch (e: Exception) {
-            e.toString()
+    data class Post(
+        val type: Int,
+        val time: String,
+        val uid: String,
+        val pid: String,
+        val text: String,
+        val image: Boolean = false
+    ) {
+        companion object {
+            const val NOTICE_CONTENT = 0
+            const val MAIN_CONTENT = 1
+            const val LOADING = 2
         }
-    }
-
-    @SuppressLint("InflateParams")
-    private fun configureBottomNavigation() {
-        bottom_nav_bg.adapter = BottomNavAdapter(supportFragmentManager, 4)
-
-        bottom_nav.setupWithViewPager(bottom_nav_bg)
-
-        val bottomNav: View =
-            this.layoutInflater.inflate(R.layout.bottom_navigation_tab, null, false)
-
-        bottom_nav.getTabAt(0)!!.customView =
-            bottomNav.findViewById(R.id.btn_my_page_nav) as RelativeLayout
-        bottom_nav.getTabAt(1)!!.customView =
-            bottomNav.findViewById(R.id.btn_star_nav) as RelativeLayout
-        bottom_nav.getTabAt(2)!!.customView =
-            bottomNav.findViewById(R.id.btn_chat_nav) as RelativeLayout
-        bottom_nav.getTabAt(3)!!.customView =
-            bottomNav.findViewById(R.id.btn_settings_nav) as RelativeLayout
     }
 }

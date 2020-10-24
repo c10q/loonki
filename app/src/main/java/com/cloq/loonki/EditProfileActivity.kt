@@ -2,12 +2,11 @@ package com.cloq.loonki
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.cloq.loonki.Fragment.storage
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.cloq.loonki.dialog.RegionDialog
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.fragment_my_page.*
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -24,41 +23,37 @@ class EditProfileActivity : AppCompatActivity() {
             super.onBackPressed()
         }
 
+        edit_region_link.setOnClickListener {
+            RegionDialog(this).start()
+        }
+
+        getUserInfo()
+    }
+
+    override fun onStart() {
+        super.onStart()
         getProfile()
     }
 
     private fun getProfile() {
-        val uid = auth?.uid.toString()
-        val fileRef = db.reference.child("users").child(uid)
-        fileRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.child("profile_img").exists()) {
-                        val fileName = storage.reference
-                            .child("users")
-                            .child(uid)
-                            .child("profile_main")
-                            .child(dataSnapshot.child("profile_img").value.toString())
+        val url = App.prefs.getPref("PROFILE_URL", "")
+        GlideApp.with(this)
+            .load(url)
+            .override(256, 256)
+            .circleCrop()
+            .into(edit_profile_image)
+    }
 
-                        GlideApp.with(this@EditProfileActivity)
-                            .load(fileName)
-                            .override(256, 256)
-                            .circleCrop()
-                            .into(edit_profile_image)
-
-                    } else {
-                        GlideApp.with(this@EditProfileActivity)
-                            .load(storage.reference.child("anonymous").child("anonymous.png"))
-                            .override(256, 256)
-                            .circleCrop()
-                            .into(edit_profile_image)
-                    }
-
+    private fun getUserInfo() {
+        val uid = App.prefs.getPref("UID", "no user")
+        fs.collection("users").document(uid).get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                edit_profile_name.setText(snapshot.get("name").toString())
+                edit_profile_age.setText(snapshot.get("age").toString())
+                edit_profile_region.text = snapshot.get("region").toString()
+                edit_profile_area.text = snapshot.get("area").toString()
+                edit_profile_gender_text.text = snapshot.get("gender").toString()
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-
+        }
     }
 }

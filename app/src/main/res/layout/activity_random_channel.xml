@@ -2,155 +2,225 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/random_match_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color2"
     tools:context=".RandomChannelActivity">
 
-    <TextView
-        android:id="@+id/random_match_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="무작위 연결"
-        android:textColor="#6E5239"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/random_match_age_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/age_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_match_title" />
-
-    <com.appyvet.materialrangebar.RangeBar
-        android:id="@+id/range_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_match_age_title"
-        app:mrb_connectingLineColor="#1A253F"
-        app:mrb_leftThumbColor="#1A253F"
-        app:mrb_pinColor="#1A253F"
-        app:mrb_pinMaxFont="13sp"
-        app:mrb_pinMinFont="11sp"
-        app:mrb_rightThumbColor="#1A253F"
-        app:mrb_tickEnd="60"
-        app:mrb_tickStart="12" />
-
-    <TextView
-        android:id="@+id/random_match_region_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/region_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/range_bar"
-        tools:ignore="MissingConstraints" />
-
-    <RadioGroup
-        android:id="@+id/random_match_region_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_match_region_title">
-
-        <RadioButton
-            android:id="@+id/random_match_region_any"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/region_any"
-            android:textColorLink="@color/color1" />
-
-        <RadioButton
-            android:id="@+id/random_match_region_same"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/region_same" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/random_match_gender_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:text="성별"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_match_region_group"
-        tools:ignore="MissingConstraints" />
-
-    <RadioGroup
-        android:id="@+id/random_match_gender_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_match_gender_title">
-
-        <RadioButton
-            android:id="@+id/random_match_gender_any"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/gender_any" />
-
-        <RadioButton
-            android:id="@+id/random_match_gender_m"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/gender_m" />
-
-        <RadioButton
-            android:id="@+id/random_match_gender_f"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gender_f" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/random_match_desc"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_match_gender_group" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="START!"
+        android:background="@color/color2"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/random_channel_nav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="0"
+                android:backgroundTint="#00000000"
+                android:contentDescription="TODO"
+                android:tint="@color/color1"
+                app:srcCompat="@drawable/abc_vector_test" />
+
+            <TextView
+                android:id="@+id/random_match_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="무작위"
+                android:textColor="#6E5239"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="60dp"
+                android:layout_height="32dp"
+                android:layout_margin="8dp"
+                android:layout_weight="0"
+                android:background="@drawable/random_start_btn_bg"
+                android:text="시작!"
+                android:textColor="#FFE9D5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="24dp">
+
+            <TextView
+                android:id="@+id/random_match_age_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/age_title" />
+
+            <com.appyvet.materialrangebar.RangeBar
+                android:id="@+id/range_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mrb_connectingLineColor="#1A253F"
+                app:mrb_leftThumbColor="#1A253F"
+                app:mrb_pinColor="#1A253F"
+                app:mrb_pinMaxFont="13sp"
+                app:mrb_pinMinFont="11sp"
+                app:mrb_rightThumbColor="#1A253F"
+                app:mrb_tickEnd="60"
+                app:mrb_tickStart="12" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/random_match_region_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/region_title" />
+
+                <TextView
+                    android:id="@+id/start_region_tag_activity_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="수정" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/random_region_cards_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="24dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:id="@+id/random_match_gender_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="성별" />
+
+                <RadioGroup
+                    android:id="@+id/random_match_gender_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/random_match_gender_any"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/gender_any" />
+
+                    <RadioButton
+                        android:id="@+id/random_match_gender_m"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/gender_m" />
+
+                    <RadioButton
+                        android:id="@+id/random_match_gender_f"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/gender_f" />
+                </RadioGroup>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="24dp">
+
+            <TextView
+                android:id="@+id/random_match_config_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="설정" />
+
+            <CheckBox
+                android:id="@+id/matched_user_config"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=" 만난 유저 제외" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/random_first_message_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="한 줄 인사" />
+
+            <EditText
+                android:id="@+id/random_first_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="안녕하다룽~" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <me.ibrahimsn.lib.SmoothBottomBar
         android:id="@+id/random_channel_nav"

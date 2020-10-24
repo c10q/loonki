@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_profile_image" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/edit_profile_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -99,7 +99,7 @@
                 android:textColor="@color/color1" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/edit_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
@@ -108,7 +108,7 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/color1"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="@tools:sample/full_names" />
 
             <TextView
@@ -132,7 +132,7 @@
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:textColor="@color/color1"
-                android:textSize="14sp"
+                android:textSize="16dp"
                 tools:text="@tools:sample/cities" />
 
             <LinearLayout
@@ -158,7 +158,7 @@
                         android:textColor="@color/color1" />
 
                     <EditText
-                        android:id="@+id/editTextNumber"
+                        android:id="@+id/edit_profile_age"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -167,8 +167,7 @@
                         android:ems="10"
                         android:inputType="number"
                         android:textColor="@color/color1"
-                        android:textSize="14sp"
-                        tools:text="@tools:sample/date/mmddyy" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -178,54 +177,87 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView12"
+                        android:id="@+id/edit_profile_gender_title"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/region_title"
+                        android:layout_weight="1"
+                        android:text="@string/gender_title"
                         android:textColor="@color/color1" />
 
-                    <Spinner
-                        android:id="@+id/spinner2"
+                    <TextView
+                        android:id="@+id/edit_profile_gender_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="24dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:textColor="@color/color1"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView14"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/gender_title"
-                android:textColor="@color/color1" />
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="60dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <RadioButton
-                    android:id="@+id/radioButton"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/gender_f" />
+                    android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radioButton2"
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/region_title"
+                        android:textColor="@color/color1" />
+
+                    <TextView
+                        android:id="@+id/edit_region_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_weight="0"
+                        android:text="수정 하기"
+                        android:textColor="#2462F8" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/gender_m" />
-            </RadioGroup>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/edit_profile_region"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="0"
+                        android:textColor="@color/color1"
+                        android:textSize="18sp"
+                        tools:text="@tools:sample/cities" />
+
+                    <TextView
+                        android:id="@+id/edit_profile_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/color1"
+                        android:textSize="18sp"
+                        tools:text="@tools:sample/cities" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

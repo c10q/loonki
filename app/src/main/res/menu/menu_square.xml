@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/square_hot"
+        android:title="인기"
+        android:icon="@drawable/ic_local_fire_department_24px"
+        />
+    <item
+        android:id="@+id/square_recent"
+        android:title="최근"
+        android:icon="@drawable/ic_schedule_24px"
+        />
+</menu>

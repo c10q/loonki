@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color1"
+    tools:context=".SquareActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_square"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/color1"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+        app:title="SQUARE"
+        app:titleTextColor="@color/color4" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/square_hot_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/squareBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_square">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/square_hot_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/home_item_main" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/square_recent_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/squareBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_square">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/square_recent_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/home_item_main"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <me.ibrahimsn.lib.SmoothBottomBar
+        android:id="@+id/squareBottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:backgroundColor="#EDD7C3"
+        app:iconSize="22dp"
+        app:iconTint="@color/color1"
+        app:iconTintActive="@color/color1"
+        app:indicatorColor="@color/color4"
+        app:indicatorRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_square"
+        app:textColor="@color/color1"
+        app:textSize="12sp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
