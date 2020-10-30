@@ -37,24 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-
-        val arr = arrayListOf<Int>()
-        val result = arrayListOf<Int>()
-        "152".forEach { it ->
-            arr.add(it.toString().toInt())
-        }
-
-
-        for (i in 0 until arr.size) {
-            var num = "${arr[i]}"
-            for (j in 0 until arr.size) {
-                if (i != j) num += arr[j].toString()
-            }
-            println(num)
-        }
-
-
-
         toolbar = findViewById(R.id.toolbar_main)
         toolbar.overflowIcon?.setTint(getColor(R.color.color2))
         toolbar.title = "HOME"
